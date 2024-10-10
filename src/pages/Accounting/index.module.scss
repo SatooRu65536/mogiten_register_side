@@ -21,7 +21,7 @@
     display: flex;
     justify-content: center;
 
-    a {
+    button {
       padding: 10px 15px;
       font-size: 1rem;
       text-decoration: none;
@@ -30,6 +30,11 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
 }

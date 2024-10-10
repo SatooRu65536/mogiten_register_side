@@ -1,7 +1,7 @@
 import styles from './index.module.scss';
 import { useAtom } from 'jotai';
 import { moneyAtomFamily } from '../../../stores/payment-atom';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 interface Props {
   name: string;
@@ -12,6 +12,10 @@ export default function Money({ name }: Props) {
 
   const handleIncrement = useCallback((amount: number) => {
     setMoney((prev) => ({ ...prev, quantity: prev.quantity + amount }));
+  }, []);
+
+  useEffect(() => {
+    setMoney((prev) => ({ ...prev, quantity: 0 }));
   }, []);
 
   return (

@@ -5,10 +5,16 @@ import { orderAtom } from '../../stores/order-atom';
 import destr from 'destr';
 import { zOrder } from '../../schema/order';
 import OrderList from './OrderList';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect } from 'react';
 
 export default function Accounting() {
+  const navigation = useNavigate();
   const [order, setOrder] = useAtom(orderAtom);
+
+  const handleSubmit = useCallback(() => {
+    navigation('/accounting/payment');
+  }, []);
 
   const handleScan = (results: IDetectedBarcode[]) => {
     console.log(results[0].rawValue);
@@ -38,6 +44,10 @@ export default function Accounting() {
     }
   };
 
+  useEffect(() => {
+    setOrder([]);
+  }, []);
+
   return (
     <main className={styles.accounting}>
       <section className={styles.scanner_container}>
@@ -56,7 +66,9 @@ export default function Accounting() {
       </section>
 
       <section className={styles.submit_container}>
-        <Link to="/accounting/payment">確認</Link>
+        <button onClick={handleSubmit} disabled={order.length === 0}>
+          確認
+        </button>
       </section>
     </main>
   );

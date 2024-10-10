@@ -1,5 +1,4 @@
 import { atom } from 'jotai';
-import { Payment } from '../types';
 import { moneyTypes } from '../const/money';
 import { atomFamily } from 'jotai/utils';
 import { orderAtom } from './order-atom';
@@ -11,9 +10,11 @@ export const moneyAtomFamily = atomFamily((name: string) => {
   return atom({ ...money, quantity: 0 });
 });
 
-export const paymentAtom = atom<Payment>((get) =>
-  moneyTypes.map((m) => get(moneyAtomFamily(m.name))),
-);
+export const changeMoneyAtomFamily = atomFamily((name: string) => {
+  const money = moneyTypes.find((m) => m.name === name);
+  if (!money) throw new Error(`MoneyType ${name} not found`);
+  return atom({ ...money, quantity: 0 });
+});
 
 export const totalAtom = atom((get) => {
   const order = get(orderAtom);
@@ -26,7 +27,7 @@ export const totalAtom = atom((get) => {
 });
 
 export const recvTotalAtom = atom((get) => {
-  const payment = get(paymentAtom);
+  const payment = moneyTypes.map((m) => get(moneyAtomFamily(m.name)));
   return payment.reduce((acc, curr) => acc + curr.amount * curr.quantity, 0);
 });
 

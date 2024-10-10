@@ -2,27 +2,21 @@ import styles from './index.module.scss';
 import { useAtomValue } from 'jotai';
 import {
   changeTotalAtom,
-  paymentAtom,
   recvTotalAtom,
   totalAtom,
 } from '../../stores/payment-atom';
 import Money from './Money';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { moneyTypes } from '../../const/money';
 
 export default function Payment() {
   const navigation = useNavigate();
-  const payment = useAtomValue(paymentAtom);
   const total = useAtomValue(totalAtom);
   const recvTotal = useAtomValue(recvTotalAtom);
   const changeTotal = useAtomValue(changeTotalAtom);
 
   const handleSubmit = useCallback(() => {
-    if (changeTotal < 0) {
-      alert('受取金額が不足しています');
-      return;
-    }
-
     navigation('/accounting');
     alert('支払いが完了しました');
   }, []);
@@ -31,7 +25,7 @@ export default function Payment() {
     <main className={styles.payment}>
       <section className={styles.money}>
         <h2>受け取り</h2>
-        {payment.map((money) => (
+        {moneyTypes.map((money) => (
           <Money key={money.name} name={money.name} />
         ))}
       </section>
@@ -48,7 +42,9 @@ export default function Payment() {
       </section>
 
       <section className={styles.submit_container}>
-        <button onClick={handleSubmit}>完了</button>
+        <button onClick={handleSubmit} disabled={changeTotal < 0}>
+          完了
+        </button>
       </section>
     </main>
   );
