@@ -1,0 +1,57 @@
+.payment {
+  padding: 10px 0 200px;
+
+  h2 {
+    padding: 20px 0;
+    grid-column: 1/-1;
+    text-align: center;
+  }
+
+  .money,
+  .change {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .payment_info {
+    padding: 50px 0 20px;
+    display: flex;
+    justify-content: center;
+
+    div {
+      display: grid;
+      gap: 2px 10px;
+      grid-template-columns: 1fr 1fr;
+
+      span {
+        font-size: 1.2rem;
+
+        &:nth-child(2n) {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  .submit_container {
+    padding: 20px 0;
+    text-align: center;
+
+    button {
+      padding: 10px 15px;
+      font-size: 1rem;
+      text-decoration: none;
+      color: #f4f6ff;
+      background-color: #10375c;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+.accounting {
+  .scanner_container {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+
+    .scanner {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+  .order_container {
+    h2 {
+      text-align: center;
+    }
+  }
+
+  .submit_container {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+
+    a {
+      padding: 10px 15px;
+      font-size: 1rem;
+      text-decoration: none;
+      color: #f4f6ff;
+      background-color: #10375c;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+}
