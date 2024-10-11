@@ -9,16 +9,27 @@ import Money from './Money';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { moneyTypes } from '../../const/money';
+import { addOrder } from '../../utils/supabase/db';
+import { orderAtom, userIdAtom } from '../../stores/order-atom';
 
 export default function Payment() {
   const navigation = useNavigate();
+  const order = useAtomValue(orderAtom);
   const total = useAtomValue(totalAtom);
   const recvTotal = useAtomValue(recvTotalAtom);
   const changeTotal = useAtomValue(changeTotalAtom);
+  const userId = useAtomValue(userIdAtom);
 
   const handleSubmit = useCallback(() => {
-    navigation('/accounting');
-    alert('支払いが完了しました');
+    if (userId == undefined) {
+      alert('ユーザーIDが不正です');
+      return;
+    }
+    (async () => {
+      await addOrder(order, userId);
+      alert('支払いが完了しました');
+      navigation('/accounting');
+    })();
   }, []);
 
   return (

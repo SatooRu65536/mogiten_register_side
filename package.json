@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
     "@yudiel/react-qr-scanner": "^2.0.8",
     "destr": "^2.0.3",
     "jotai": "^2.10.0",
@@ -31,6 +32,7 @@
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
     "sass": "^1.79.4",
+    "supabase": "^1.204.3",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.7.0",
     "unplugin-fonts": "^1.1.1",

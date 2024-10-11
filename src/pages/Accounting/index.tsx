@@ -1,7 +1,7 @@
 import styles from './index.module.scss';
 import { Scanner, IDetectedBarcode } from '@yudiel/react-qr-scanner';
-import { useAtom } from 'jotai';
-import { orderAtom } from '../../stores/order-atom';
+import { useAtom, useSetAtom } from 'jotai';
+import { orderAtom, userIdAtom } from '../../stores/order-atom';
 import destr from 'destr';
 import { zOrder } from '../../schema/order';
 import OrderList from './OrderList';
@@ -11,6 +11,7 @@ import { useCallback, useEffect } from 'react';
 export default function Accounting() {
   const navigation = useNavigate();
   const [order, setOrder] = useAtom(orderAtom);
+  const setUserId = useSetAtom(userIdAtom);
 
   const handleSubmit = useCallback(() => {
     navigation('/accounting/payment');
@@ -24,7 +25,8 @@ export default function Accounting() {
       return;
     }
 
-    setOrder(res.data);
+    setUserId(res.data.key);
+    setOrder(res.data.order);
   };
 
   const tracker = (
