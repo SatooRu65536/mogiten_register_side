@@ -6,6 +6,7 @@ import { joinURL } from 'ufo';
 const KEY_URL = import.meta.env.VITE_KEY_URL;
 
 export async function addOrder(order: OrderItem[], key: string) {
+  console.log('key:', key);
   const res = await ofetch(joinURL(KEY_URL, key), {
     parseResponse: JSON.parse,
   });
