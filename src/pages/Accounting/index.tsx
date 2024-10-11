@@ -18,7 +18,7 @@ export default function Accounting() {
   }, []);
 
   const handleScan = (results: IDetectedBarcode[]) => {
-    console.log(results[0].rawValue);
+    if (results[0].rawValue === '') return;
     const res = zOrder.safeParse(destr(results[0].rawValue));
     if (!res.success) {
       alert('内容が不正です');

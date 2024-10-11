@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const zOrder = z.object({
-  key: z.number(),
+  key: z.string(),
   order: z.array(
     z
       .object({

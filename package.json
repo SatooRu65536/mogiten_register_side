@@ -15,9 +15,11 @@
     "@yudiel/react-qr-scanner": "^2.0.8",
     "destr": "^2.0.3",
     "jotai": "^2.10.0",
+    "ofetch": "^1.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
+    "ufo": "^1.5.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
