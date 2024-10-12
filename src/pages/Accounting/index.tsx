@@ -1,6 +1,6 @@
 import styles from './index.module.scss';
 import { Scanner, IDetectedBarcode } from '@yudiel/react-qr-scanner';
-import { useAtom, useSetAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import { userIdAtom } from '../../stores/order-atom';
 import destr from 'destr';
 import { zOrder } from '../../schema/order';
