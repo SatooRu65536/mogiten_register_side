@@ -5,11 +5,12 @@ import { userIdAtom } from '../../stores/order-atom';
 import destr from 'destr';
 import { zOrder } from '../../schema/order';
 import { useState } from 'react';
-import { itemGroup } from '../../const/items';
+import { itemGroup, itemList } from '../../const/items';
 
 export default function Accounting() {
   const setUserId = useSetAtom(userIdAtom);
   const [order, setOrder] = useState('');
+  const [total, setTotal] = useState(0);
 
   const handleScan = (results: IDetectedBarcode[]) => {
     if (results[0].rawValue === '') return;
@@ -26,6 +27,14 @@ export default function Accounting() {
         .map(({ name, quantity }) => `${name}: ${quantity}`)
         .join('\n'),
     );
+
+    // eslint-disable-next-line unicorn/no-array-reduce
+    const total_ = res.data.order.reduce((acc, { name, quantity }) => {
+      const price = itemList.find((item) => item.name === name)?.price;
+      if (price === undefined) return acc;
+      return acc + price * quantity;
+    }, 0);
+    setTotal(total_);
   };
 
   const copy = () => {
@@ -52,7 +61,7 @@ export default function Accounting() {
       </section>
 
       <section className={styles.order_container}>
-        <h2>注文情報</h2>
+        <h2>注文情報: {total}円</h2>
         <button onClick={copy}>コピー</button>
         <textarea value={order} className={styles.textarea}></textarea>
       </section>
