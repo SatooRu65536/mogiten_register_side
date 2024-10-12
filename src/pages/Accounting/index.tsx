@@ -28,6 +28,17 @@ export default function Accounting() {
     );
   };
 
+  const copy = () => {
+    navigator.clipboard.writeText(order).then(
+      () => {
+        alert('コピー成功👍');
+      },
+      () => {
+        alert('コピー失敗😭');
+      },
+    );
+  };
+
   return (
     <main className={styles.accounting}>
       <section className={styles.scanner_container}>
@@ -42,6 +53,7 @@ export default function Accounting() {
 
       <section className={styles.order_container}>
         <h2>注文情報</h2>
+        <button onClick={copy}>コピー</button>
         <textarea value={order} className={styles.textarea}></textarea>
       </section>
     </main>
