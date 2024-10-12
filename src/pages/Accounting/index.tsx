@@ -11,6 +11,7 @@ export default function Accounting() {
   const setUserId = useSetAtom(userIdAtom);
   const [order, setOrder] = useState('');
   const [total, setTotal] = useState(0);
+  const [drinks, setDrinks] = useState('');
 
   const handleScan = (results: IDetectedBarcode[]) => {
     if (results[0].rawValue === '') return;
@@ -24,6 +25,18 @@ export default function Accounting() {
     setOrder(
       res.data.order
         .filter(({ name }) => itemGroup.drink.every((d) => d.name !== name))
+        .map(({ name, quantity }) => `${name}: ${quantity}`)
+        .join('\n'),
+    );
+    setDrinks(
+      res.data.order
+        .filter(({ name }) => itemGroup.drink.some((d) => d.name === name))
+        .map(({ name, quantity }) => `${name}: ${quantity}`)
+        .join('\n'),
+    );
+    console.log(
+      res.data.order
+        .filter(({ name }) => itemGroup.drink.some((d) => d.name === name))
         .map(({ name, quantity }) => `${name}: ${quantity}`)
         .join('\n'),
     );
@@ -63,7 +76,8 @@ export default function Accounting() {
       <section className={styles.order_container}>
         <h2>注文情報: {total}円</h2>
         <button onClick={copy}>コピー</button>
-        <textarea value={order} className={styles.textarea}></textarea>
+        <textarea defaultValue={order} className={styles.textarea}></textarea>
+        <p className={styles.drink}>{drinks}</p>
       </section>
     </main>
   );
