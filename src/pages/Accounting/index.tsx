@@ -1,21 +1,15 @@
 import styles from './index.module.scss';
 import { Scanner, IDetectedBarcode } from '@yudiel/react-qr-scanner';
 import { useAtom, useSetAtom } from 'jotai';
-import { orderAtom, userIdAtom } from '../../stores/order-atom';
+import { userIdAtom } from '../../stores/order-atom';
 import destr from 'destr';
 import { zOrder } from '../../schema/order';
-import OrderList from './OrderList';
-import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect } from 'react';
+import { useState } from 'react';
+import { itemGroup } from '../../const/items';
 
 export default function Accounting() {
-  const navigation = useNavigate();
-  const [order, setOrder] = useAtom(orderAtom);
   const setUserId = useSetAtom(userIdAtom);
-
-  const handleSubmit = useCallback(() => {
-    navigation('/accounting/payment');
-  }, []);
+  const [order, setOrder] = useState('');
 
   const handleScan = (results: IDetectedBarcode[]) => {
     if (results[0].rawValue === '') return;
@@ -26,29 +20,13 @@ export default function Accounting() {
     }
 
     setUserId(res.data.key);
-    setOrder(res.data.order);
+    setOrder(
+      res.data.order
+        .filter(({ name }) => itemGroup.drink.every((d) => d.name !== name))
+        .map(({ name, quantity }) => `${name}: ${quantity}`)
+        .join('\n'),
+    );
   };
-
-  const tracker = (
-    detectedCodes: IDetectedBarcode[],
-    ctx: CanvasRenderingContext2D,
-  ) => {
-    for (const code of detectedCodes) {
-      // 検出されたコードの周りに赤い枠を描画
-      ctx.strokeStyle = 'red';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(
-        code.boundingBox.x,
-        code.boundingBox.y,
-        code.boundingBox.width,
-        code.boundingBox.height,
-      );
-    }
-  };
-
-  useEffect(() => {
-    setOrder([]);
-  }, []);
 
   return (
     <main className={styles.accounting}>
@@ -57,20 +35,14 @@ export default function Accounting() {
           <Scanner
             onScan={handleScan}
             formats={['qr_code']}
-            components={{ tracker, finder: false }}
+            components={{ finder: false }}
           />
         </div>
       </section>
 
       <section className={styles.order_container}>
         <h2>注文情報</h2>
-        <OrderList order={order} />
-      </section>
-
-      <section className={styles.submit_container}>
-        <button onClick={handleSubmit} disabled={order.length === 0}>
-          確認
-        </button>
+        <textarea value={order} className={styles.textarea}></textarea>
       </section>
     </main>
   );
